@@ -8,7 +8,7 @@ project(
 set(CMAKE_CXX_STANDARD 17)
 add_executable(
   learning_bgl
-  "src/main.cpp"
+  "kevin-bacon.cpp"
 )
 
 set(Boost_USE_STATIC_LIBS OFF)
