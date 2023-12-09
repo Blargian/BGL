@@ -19,7 +19,7 @@ Repository with code and examples for learning the Boost Graph Library.
     <td>A basic example of how to use Kruskals algorithm to find the MST</td>
   </tr>
   <tr>
-    <td>/td>
+    <td></td>
     <td></td>
   </tr>
 </tbody>
