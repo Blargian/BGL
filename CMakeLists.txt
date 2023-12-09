@@ -6,10 +6,6 @@ project(
   LANGUAGES CXX
 )
 set(CMAKE_CXX_STANDARD 17)
-add_executable(
-  learning_bgl
-  "src/kevin-bacon.cpp"
-)
 
 set(default_build_type "Release")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -20,6 +16,8 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
+# ----- begin BOOST related ----- # 
+
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
@@ -29,21 +27,35 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
-target_include_directories(learning_bgl
-  PRIVATE
-    "${CMAKE_CURRENT_LIST_DIR}/src"
-    )
+include_directories(
+"${CMAKE_CURRENT_LIST_DIR}/src"
+)
 
-target_link_libraries(
-  learning_bgl
-  PRIVATE
+# link boost to all targets
+link_libraries(
   ${Boost_LIBRARIES}
 )
 
+# ----- begin target definitions ----- # 
+
+add_executable(
+  kevin-bacon
+  "src/kevin-bacon.cpp"
+)
+
+add_executable(
+  kruskal
+  "src/kruskal.cpp"
+)
+
+# ----- end target definitions ----- # 
+
+# ----- begin copy across needed files ----- # 
+
 add_custom_command(
-TARGET learning_bgl POST_BUILD
+TARGET kevin-bacon POST_BUILD
 COMMAND ${CMAKE_COMMAND} -E copy
 ${CMAKE_SOURCE_DIR}/src/kevin-bacon.dat
 ${CMAKE_CURRENT_BINARY_DIR}/kevin-bacon.dat)
 
-
+# ----- end copy across needed files ----- #
