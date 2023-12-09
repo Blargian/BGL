@@ -16,7 +16,7 @@ Repository with code and examples for learning the Boost Graph Library.
   </tr>
   <tr>
     <td>kruskal.cpp</td>
-    <td>A basic example of how to use Kruskals algorithm to find the MST</td>
+    <td>A basic example of how to use Kruskals algorithm to find the MST. Taken from BGL library examples.</td>
   </tr>
   <tr>
     <td></td>
