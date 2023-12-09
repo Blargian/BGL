@@ -8,8 +8,17 @@ project(
 set(CMAKE_CXX_STANDARD 17)
 add_executable(
   learning_bgl
-  "kevin-bacon.cpp"
+  "src/kevin-bacon.cpp"
 )
+
+set(default_build_type "Release")
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message( STATUS "Setting build type to '${default_build_type}' as none was specified.")
+  set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE STRING "Choose the type of build." FORCE)
+  # Set the possible values of build type for cmake-gui
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+    "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
 
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
@@ -30,5 +39,11 @@ target_link_libraries(
   PRIVATE
   ${Boost_LIBRARIES}
 )
+
+add_custom_command(
+TARGET learning_bgl POST_BUILD
+COMMAND ${CMAKE_COMMAND} -E copy
+${CMAKE_SOURCE_DIR}/src/kevin-bacon.dat
+${CMAKE_CURRENT_BINARY_DIR}/kevin-bacon.dat)
 
 

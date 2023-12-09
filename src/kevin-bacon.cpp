@@ -13,10 +13,58 @@
 #include <map>
 #include <string>
 
+
+template <typename DistanceMap, typename actor_name_map_t>
+class bacon_number_recorder : public boost::default_bfs_visitor
+{
+ public:
+  bacon_number_recorder(DistanceMap dist, actor_name_map_t actors)
+      : d(dist), actor_name(actors) {}
+  
+  // we override the behaviour of specific events which take place during BFS
+  // invoked on each edge as it becomes a member of the edges that form the search tree.
+  template<typename Edge, typename Graph>
+  void tree_edge(Edge e, const Graph& g) const 
+  {
+    using vdescriptor = typename boost::graph_traits<Graph>::vertex_descriptor ;
+    vdescriptor u = boost::source(e, g);
+    vdescriptor v = boost::target(e, g);
+    std::cout << "traversing " << actor_name[u] << " <---> " << actor_name[v]
+              << std::endl;
+    d[v] = d[u] + 1;
+  }
+
+  /* 
+  template<typename Vertex, typename Graph>
+  void discover_vertex(Vertex u, const Graph& g) const {
+    std::cout << "discovered " << actor_name[u] << std::endl;
+  }
+  */
+
+  /*
+  template<typename Vertex, typename Graph>
+  void finish_vertex(Vertex u, const Graph& g) const {
+    std::cout << "all edges of " << actor_name[u] << " have been searched"<< std::endl;
+  }
+  */
+
+ private:
+  DistanceMap d;
+  actor_name_map_t actor_name;
+};
+
+// Convenience function  
+template <typename DistanceMap, typename actor_name_map_t>
+bacon_number_recorder<DistanceMap, actor_name_map_t> record_bacon_number(
+    DistanceMap d, actor_name_map_t a) {
+  return bacon_number_recorder<DistanceMap, actor_name_map_t>(d, a);
+}
+
 int main() {
   
   // read in the file data
-  std::ifstream datafile("./kevin-bacon.dat");
+  std::ifstream datafile;
+  datafile.open("kevin-bacon.dat");
 
   if (!datafile) {
     std::cerr << "No ./kevin-bacon.dat file" << std::endl;
@@ -97,5 +145,18 @@ int main() {
   Vertex src = actors["Kevin Bacon"];
   bacon_number[src] = 0;
 
+  breadth_first_search(
+      g, 
+      src,
+      boost::visitor(record_bacon_number(&bacon_number[0], actor_name_map))
+  );
+
+  // print the bacon numbers of each vertex
+  std::cout << std::endl;
+  boost::graph_traits<Graph>::vertex_iterator i, end;
+  for (boost::tie(i, end) = boost::vertices(g); i != end; ++i) {
+    std::cout << actor_name_map[*i] << " has a Bacon number of " << bacon_number[*i]
+              << std::endl;
+  }
   return 0;
 }
