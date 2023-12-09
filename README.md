@@ -15,7 +15,11 @@ Repository with code and examples for learning the Boost Graph Library.
     <td>An example which uses breadth-first search to find the bacon number of actors. (six degrees of Kevin Bacon problem) taken from the BGL book.</td>
   </tr>
   <tr>
-    <td></td>
+    <td>kruskal.cpp</td>
+    <td>A basic example of how to use Kruskals algorithm to find the MST</td>
+  </tr>
+  <tr>
+    <td>/td>
     <td></td>
   </tr>
 </tbody>
