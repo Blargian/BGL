@@ -1,6 +1,6 @@
 # Boost Graph Library 
 
-Repository with code and examples for learning the Boost Graph Library.  
+Repository with notes and code examples for learning the Boost Graph Library.  
 
 <table>
 <thead>
