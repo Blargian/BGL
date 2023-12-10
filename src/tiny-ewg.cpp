@@ -13,18 +13,19 @@ etc...
 #include <boost/tokenizer.hpp>
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/config.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
-#include <map>
+#include <unordered_map>
 
 template<typename Graph, typename WeightMap>
 void printEdges(const Graph& g, WeightMap w) {
   typename typedef boost::graph_traits<Graph>::edge_iterator EdgeIterator;
   EdgeIterator it, end;
   for (boost::tie(it, end) = boost::edges(g); it != end; ++it) {
-    std::cout << boost::source(*it, g) << "  " << " --( " << w[*it] << " )--> " << "  " << boost::target(*it, g) << std::endl; 
+    std::cout << std::setprecision(2) << std::fixed << boost::source(*it, g) << "  " << " --( " << w[*it] << " )--> " << "  " << boost::target(*it, g) << std::endl; 
   }
 }
 
@@ -38,7 +39,10 @@ int main() {
     return EXIT_FAILURE;
   };
 
-  typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS,boost::no_property,boost::property<boost::edge_weight_t, double>> Graph;
+  typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS,
+                                boost::property<boost::vertex_index_t, size_t>,
+                                boost::property<boost::edge_weight_t, double>>
+      Graph;
   typedef std::pair<int, int> Edge;
 
   // read in number of vertices
@@ -50,15 +54,16 @@ int main() {
   std::getline(datafile, line);
   const int num_edges = std::stoi(line);
 
-  Graph g(num_vertices);
+  Graph g;
 
-  // map vertex position to Vertex
+  // unordered map of (key: tiny_ewg_vertex, value: vertex_descriptor)
   typedef boost::graph_traits<Graph>::vertex_descriptor Vertex;
-  typedef std::map<int, Vertex> VertexMap;
+  typedef std::unordered_map<int, Vertex> VertexMap;
   VertexMap vertex_map;
 
-  // property map for the edge weight
+  // property maps for the edge weight and vertex_index
   boost::property_map<Graph, boost::edge_weight_t>::type weight_map = boost::get(boost::edge_weight, g);
+  boost::property_map<Graph, boost::vertex_index_t>::type index_map = boost::get(boost::vertex_index, g);
 
   for (std::string line; std::getline(datafile, line);) {
     std::cout << line << std::endl;
@@ -70,22 +75,20 @@ int main() {
     bool inserted;
     Vertex u, v;
     VertexMap::iterator pos;
-    boost::tie(pos, inserted) =
-        vertex_map.insert(std::make_pair(stoi(*tok_it), Vertex()));
+    boost::tie(pos, inserted) = vertex_map.insert(std::make_pair(stoi(*tok_it), Vertex()));
     if (inserted) {
       u = boost::add_vertex(g);
-      vertex_map[u] = u;
+      pos->second = u;
     } else {
       u = pos->second;
     }
 
     tok_it++;
     
-    boost::tie(pos, inserted) =
-        vertex_map.insert(std::make_pair(stoi(*tok_it), Vertex()));
+    boost::tie(pos, inserted) = vertex_map.insert(std::make_pair(stoi(*tok_it), Vertex()));
     if (inserted) {
       v = boost::add_vertex(g);
-      vertex_map[v] = v;
+      pos->second = v;
     } else {
       v = pos->second;
     }
@@ -100,6 +103,33 @@ int main() {
       weight_map[e] = stod(*tok_it);
     }
   }
-
+  
+  // uncomment if you want to see how tiny_ewg labelling was mapped to the vertex_descriptor
+  /*for (std::unordered_map<int, Vertex>::const_iterator it = vertex_map.begin(); it != vertex_map.end(); ++it) {
+    std::cout << it->first << " : " << it->second << std::endl;
+  }*/
   printEdges(g, weight_map);
+
+  // we get console output
+  /*
+  0   --( 0.35 )-->   1
+  0   --( 0.37 )-->   2
+  1   --( 0.28 )-->   2
+  3   --( 0.16 )-->   2
+  4   --( 0.32 )-->   1
+  3   --( 0.38 )-->   0
+  5   --( 0.17 )-->   6
+  4   --( 0.19 )-->   2
+  3   --( 0.26 )-->   5
+  4   --( 0.36 )-->   5
+  4   --( 0.29 )-->   6
+  5   --( 0.34 )-->   2
+  7   --( 0.40 )-->   5
+  6   --( 0.52 )-->   7
+  7   --( 0.58 )-->   3
+  7   --( 0.93 )-->   0
+  */
+
+  // remember that BGL uses it's own indexing so if you want to use the labels as they are in the tiny_ewg.txt file you
+  // need to then use the vertex_map. eg) vertex_map[4] returns 0  
 }
