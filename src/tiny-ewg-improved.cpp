@@ -1,3 +1,10 @@
+/*
+This example code was created by user sehe in his answer to my post on stackexchange here:
+https://stackoverflow.com/questions/77634022/how-to-set-custom-vertex-descriptor-to-own-value-using-add-vertex-boost-grap/77636497#77636497
+
+I have taken the liberty to add some comments in a few places to make it even more beginner friendly 
+*/
+
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graph_utility.hpp>
 #include <fstream>
