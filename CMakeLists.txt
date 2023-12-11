@@ -52,6 +52,11 @@ add_executable(
   tiny-ewg
   "src/tiny-ewg.cpp"
 )
+
+add_executable(
+  tiny-ewg-improved
+  "src/tiny-ewg-improved.cpp"
+)
 # ----- end target definitions ----- # 
 
 # ----- begin copy across needed files ----- # 
@@ -65,6 +70,13 @@ ${CMAKE_CURRENT_BINARY_DIR}/kevin-bacon.dat
 
 add_custom_command(
 TARGET tiny-ewg POST_BUILD
+COMMAND ${CMAKE_COMMAND} -E copy
+${CMAKE_SOURCE_DIR}/src/tiny-ewg.txt
+${CMAKE_CURRENT_BINARY_DIR}/tiny-ewg.txt
+)
+
+add_custom_command(
+TARGET tiny-ewg-improved POST_BUILD
 COMMAND ${CMAKE_COMMAND} -E copy
 ${CMAKE_SOURCE_DIR}/src/tiny-ewg.txt
 ${CMAKE_CURRENT_BINARY_DIR}/tiny-ewg.txt
