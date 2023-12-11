@@ -28,3 +28,5 @@ Repository with notes and code examples for learning the Boost Graph Library.
   </tr>
 </tbody>
 </table>
+
+Instructions to get the project working on your local machine can be found [here](/doc/setup_instructions.md)
