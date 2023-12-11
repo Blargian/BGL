@@ -1,6 +1,6 @@
-# Boost Graph Library 
+# Learning Boost Graph Library 💡
 
-Repository with notes and code examples for learning the Boost Graph Library.  
+This is an opensource project with the aim of creating a repository with useful notes and code examples for learning the Boost Graph Library. BGL is an incredible piece of C++ design, which strives for genericity. Unfortunately this genericity can sometimes make it feel a little challenging to pick up. This project is aimed at lowering the barrier to entry for new comers to BGL. [Contributions](/doc/setup_instructions.md) are welcome, let's learn together!   
 
 <table>
 <thead>
