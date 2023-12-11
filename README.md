@@ -19,8 +19,12 @@ Repository with notes and code examples for learning the Boost Graph Library.
     <td>A basic example of how to use Kruskals algorithm to find the MST. Taken from BGL library examples.</td>
   </tr>
   <tr>
-    <td>tiny-ewg.txt</td>
+    <td>tiny-ewg.cpp</td>
     <td>Reads in data from a textfile, creates a graph out of it and then finds the minimum spanning tree using Kruskal's algorithm</td>
+  </tr>
+  <tr>
+    <td>tiny-ewg-improved.cpp</td>
+    <td>Example by user sehe on stackexchange which makes some simplifications and improvements to the tiny-ewg example</td>
   </tr>
 </tbody>
 </table>
