@@ -26,6 +26,10 @@ This is an opensource project with the aim of creating a repository with useful 
     <td>tiny-ewg-improved.cpp</td>
     <td>Example by user sehe on stackexchange which makes some simplifications and improvements to the tiny-ewg example</td>
   </tr>
+   <tr>
+    <td>connecting-cities.cpp</td>
+    <td>Example by user sehe on stackexchange which shows how named properties can be useful</td>
+  </tr>
 </tbody>
 </table>
 

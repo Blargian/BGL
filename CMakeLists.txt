@@ -57,6 +57,11 @@ add_executable(
   tiny-ewg-improved
   "src/tiny-ewg-improved.cpp"
 )
+
+add_executable(
+  connecting-cities
+  "src/connecting-cities.cpp"
+)
 # ----- end target definitions ----- # 
 
 # ----- begin copy across needed files ----- # 
@@ -80,6 +85,13 @@ TARGET tiny-ewg-improved POST_BUILD
 COMMAND ${CMAKE_COMMAND} -E copy
 ${CMAKE_SOURCE_DIR}/src/tiny-ewg.txt
 ${CMAKE_CURRENT_BINARY_DIR}/tiny-ewg.txt
+)
+
+add_custom_command(
+TARGET connecting-cities POST_BUILD
+COMMAND ${CMAKE_COMMAND} -E copy
+${CMAKE_SOURCE_DIR}/src/cities.txt
+${CMAKE_CURRENT_BINARY_DIR}/cities.txt
 )
 
 # ----- end copy across needed files ----- #
